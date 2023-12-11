@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 10
+
+// Define the structure for the stack
+struct Stack {
+    int top;
+    int capacity;
+    float *array;
+};
+
+// Function to initialize a stack
+struct Stack* createStack(int capacity) {
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
+    stack->capacity = capacity;
+    stack->top = -1;
+    stack->array = (float*)malloc(stack->capacity * sizeof(float));
+    return stack;
+}
+
+// Function to check if the stack is full
+int isFull(struct Stack* stack) {
+    return stack->top == stack->capacity - 1;
+}
+
+// Function to check if the stack is empty
+int isEmpty(struct Stack* stack) {
+    return stack->top == -1;
+}
+
+// Function to push a real number onto the stack
+void push(struct Stack* stack, float item) {
+    if (isFull(stack)) {
+        printf("Stack overflow\n");
+        return;
+    }
+    stack->array[++stack->top] = item;
+    printf("%f pushed to stack\n", item);
+}
+
+// Function to print the elements of the stack
+void printStack(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty\n");
+        return;
+    }
+    printf("Stack elements: ");
+    for (int i = 0; i <= stack->top; i++) {
+        printf("%f ", stack->array[i]);
+    }
+    printf("\n");
+}
+
+// Function to free the allocated memory for the stack
+void destroyStack(struct Stack* stack) {
+    free(stack->array);
+    free(stack);
+}
+
+int main() {
+    // Create a stack with a maximum capacity of MAX_SIZE
+    struct Stack* stack = createStack(MAX_SIZE);
+
+    // Push some real numbers onto the stack
+    push(stack, 1.5);
+    push(stack, 2.3);
+    push(stack, 3.7);
+
+    // Print the elements of the stack
+    printStack(stack);
+
+    // Free the allocated memory for the stack
+    destroyStack(stack);
+
+    return 0;
+}
